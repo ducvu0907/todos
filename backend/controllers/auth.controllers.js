@@ -12,6 +12,7 @@ export async function signup(req, res) {
     if (user) {
       return res.status(400).json({ error: "Username already exists" });
     }
+
     // hash password
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -41,8 +42,9 @@ export async function signin(req, res) {
     const user = await User.findOne({ username });
 
     const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
+
     if (!isPasswordCorrect) {
-      res.status(500).json({ error: "Invalid username or password" });
+      return res.status(400).json({ error: "Invalid username or password" });
     }
 
     res.status(201).json({
@@ -54,7 +56,6 @@ export async function signin(req, res) {
     console.log(error);
     res.status(500).json({ error: error.message });
   }
-
 }
 
 export function signout(req, res) {

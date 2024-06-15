@@ -1,12 +1,35 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { FaSpinner } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { setAuthUser } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      console.log(data);
+      localStorage.setItem("user", JSON.stringify(data));
+      setAuthUser(data);
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -45,9 +68,9 @@ export default function SignUp() {
 
           <button
             type="submit"
-            className="w-full px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+            className={`w-full h-[35px] px-4 py-2 text-sm font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 ${loading && "disabled"}`}
           >
-            Login
+            {loading ? <FaSpinner className="text-xl mx-auto" /> : "Login"}
           </button>
         </form>
       </div>

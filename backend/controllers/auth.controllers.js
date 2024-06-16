@@ -23,7 +23,7 @@ export async function signup(req, res) {
 
     // gen jwt token to signin and save to db
     generateTokenAndSetCookie(newUser._id, res);
-    newUser.save();
+    await newUser.save();
 
     res.status(201).json({
       _id: newUser._id,
@@ -47,6 +47,8 @@ export async function signin(req, res) {
       return res.status(400).json({ error: "Invalid username or password" });
     }
 
+    generateTokenAndSetCookie(user._id, res);
+
     res.status(201).json({
       id: user._id,
       username: user.username,
@@ -61,7 +63,7 @@ export async function signin(req, res) {
 export function signout(req, res) {
   try {
     res.cookie("jwt", "", { maxAge: 0 });
-    res.status(200).json({ message: "Signed out" });
+    res.status(200).json({ message: "Signed out successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error.message });

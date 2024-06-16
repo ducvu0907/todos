@@ -1,22 +1,22 @@
-import cookieParser from "cookie-parser";
 import express from "express";
 import connectToMongoDB from "./utils/connectToMongoDB.js";
+import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
+import taskRoutes from "./routes/task.routes.js";
+import userRoutes from "./routes/user.routes.js";
 import cors from "cors";
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 
-// parsing json and cookies
+// middlewares
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
-
-app.get("/", (req, res) => {
-  res.send("welcome to a task manager app");
-});
+app.use("/api/tasks", taskRoutes);
+app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
   connectToMongoDB();

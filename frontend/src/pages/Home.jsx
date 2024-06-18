@@ -1,11 +1,11 @@
 import Sidebar from "../components/Sidebar";
-import TasksContainer from "../components/TasksContainer";
+import TaskContainer from "../components/TaskContainer";
 
 export default function Home() {
   return (
     <div>
       <Sidebar />
-      <TasksContainer />
+      <TaskContainer />
     </div>
   )
 }

@@ -22,13 +22,17 @@ export async function signup(req, res) {
     });
 
     // gen jwt token to signin and save to db
-    generateTokenAndSetCookie(newUser._id, res);
-    await newUser.save();
+    if (newUser) {
+      generateTokenAndSetCookie(newUser._id, res);
+      await newUser.save();
 
-    res.status(201).json({
-      _id: newUser._id,
-      username: newUser.username,
-    });
+      res.status(201).json({
+        _id: newUser._id,
+        username: newUser.username,
+      });
+    } else {
+      res.status(400).json({ error: "Invalid user data" });
+    }
 
   } catch (error) {
     console.log(error);

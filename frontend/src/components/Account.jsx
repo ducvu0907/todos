@@ -14,7 +14,7 @@ export default function Account() {
         throw new Error(data.error);
       }
       localStorage.removeItem("user");
-      setAuthUser("");
+      setAuthUser(null);
     } catch (error) {
       console.log(error.message);
     }

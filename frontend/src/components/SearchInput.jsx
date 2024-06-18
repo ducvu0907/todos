@@ -6,7 +6,7 @@ export default function SearchInput() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("searching...");
+    console.log("Search some thing");
   };
 
   return (

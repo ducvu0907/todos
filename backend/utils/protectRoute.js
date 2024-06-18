@@ -14,12 +14,13 @@ export default async function protectRoute(req, res, next) {
     }
     const user = await User.findById(decoded.userId).select("-password");
     if (!user) {
-      return res.status(401).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
-    req.user = user; // assign user object to the request
+    req.user = user; // assign user object to the request to pass to the next controller
     next();
+
   } catch (error) {
     console.log(error);
-    return res.status(401).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 }

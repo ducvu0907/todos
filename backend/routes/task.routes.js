@@ -4,10 +4,10 @@ import protectRoute from "../utils/protectRoute.js";
 
 const router = express.Router();
 
-router.get("/:id", protectRoute, getTask);
-router.get("/", protectRoute, getTaskList);
-router.post("/", protectRoute, createTask);
-router.post("/:id", protectRoute, updateTask);
-router.delete("/:id", protectRoute, deleteTask);
+router.get("/:userId", getTaskList);
+router.get("/:userId/:taskId", getTask);
+router.post("/create/:userId", createTask);
+router.get("/delete/:userId/:taskId", deleteTask);
+router.post("/update/:userId", updateTask);
 
 export default router;

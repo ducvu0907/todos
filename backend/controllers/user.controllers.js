@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 // get user info
 export async function getUser(req, res) {
   try {
-    const userId = req.user._id;
+    const userId = req.params.userId;
     if (!userId) {
       return res.status(400).json({ error: "Invalid user" });
     }
@@ -23,7 +23,7 @@ export async function getUser(req, res) {
 // change password
 export async function updateUser(req, res) {
   try {
-    const userId = req.user._id;
+    const userId = req.params.userId;
     if (!userId) {
       return res.status(400).json({ error: "Invalid user" });
     }

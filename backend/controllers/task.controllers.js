@@ -3,8 +3,7 @@ import Task from "../models/task.model.js";
 // get task
 export async function getTask(req, res) {
   try {
-    const taskId = req.params.id;
-    const userId = req.user._id;
+    const { userId, taskId } = req.params;
     let tasks = await Task.findOne({ userId: userId, _id: taskId });
     if (!tasks) {
       return res.status(404).json({ error: "Task not found" });
@@ -20,7 +19,7 @@ export async function getTask(req, res) {
 // get all tasks
 export async function getTaskList(req, res) {
   try {
-    const userId = req.user._id;
+    const userId = req.params.userId;
     let tasks = await Task.find({ userId: userId });
     if (!tasks) {
       return res.status(200).json([]);
@@ -37,15 +36,15 @@ export async function getTaskList(req, res) {
 export async function createTask(req, res) {
   try {
     const { title, description, dueDate, status } = req.body;
-    const userId = req.user._id;
+    const userId = req.params.userId;
     if (!title) {
-      return res.status(400).json({ error: "A task must have an title" });
+      return res.status(400).json({ error: "A task must have title" });
     }
 
     const newTask = new Task({
       userId,
-      title: title,
-      description: description || "",
+      title: title || "untitled",
+      description: description || "task description",
       dueDate: dueDate || null,
       status: status || "todo",
     });
@@ -62,9 +61,8 @@ export async function createTask(req, res) {
 // update task
 export async function updateTask(req, res) {
   try {
-    const taskId = req.params.id;
-    const userId = req.user._id;
-    const { title, description, dueDate, status } = req.body;
+    const userId = req.params.userId;
+    const { taskId, title, description, dueDate, status } = req.body;
 
     const prevTask = await Task.findOne({ _id: taskId, userId: userId });
     if (!prevTask) {
@@ -92,13 +90,9 @@ export async function updateTask(req, res) {
 // delete task
 export async function deleteTask(req, res) {
   try {
-    const taskId = req.params.id;
-    const userId = req.user._id;
+    const { userId, taskId } = req.params;
     const deleted = await Task.deleteOne({ _id: taskId, userId: userId });
 
-    if (deleted.deletedCount === 0) {
-      return res.status(404).json({ error: "Task not found" });
-    }
     res.status(200).json({ message: "Task deleted successfully" });
 
   } catch (error) {

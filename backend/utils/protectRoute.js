@@ -16,6 +16,7 @@ export default async function protectRoute(req, res, next) {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
     req.user = user; // assign user object to the request to pass to the next controller
     next();
 

@@ -4,9 +4,8 @@ import { useState } from "react";
 export default function SearchInput() {
   const [search, setSearch] = useState("");
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    console.log("Search some thing");
   };
 
   return (

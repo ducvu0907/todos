@@ -4,7 +4,7 @@ import protectRoute from "../utils/protectRoute.js";
 
 const router = express.Router();
 
-router.get("/", protectRoute, getUser);
-router.post("/", protectRoute, updateUser);
+router.get("/:userId", getUser);
+router.post("/:userId", updateUser);
 
 export default router;

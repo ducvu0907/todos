@@ -3,7 +3,7 @@ import TaskContainer from "../components/TaskContainer";
 
 export default function Home() {
   return (
-    <div>
+    <div className="flex">
       <Sidebar />
       <TaskContainer />
     </div>

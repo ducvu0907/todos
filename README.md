@@ -1,6 +1,6 @@
 # Task Manager
 
-An simple todos for fun
+A simple todos for fun
 
 ### Setup .env file
 

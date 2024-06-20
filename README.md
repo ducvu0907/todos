@@ -1,6 +1,6 @@
-# Task Manager App
+# Task Manager
 
-Simple task manager just for fun
+An simple todos for fun
 
 ### Setup .env file
 
